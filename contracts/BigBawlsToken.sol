@@ -4,7 +4,7 @@ pragma solidity >=0.8.2 <0.9.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "contracts/interfaces/IBigBawlsTokenError.sol";
 
-contract MyToken is IERC20, IBigBawlsTokenErrors {
+contract BigBawls is IERC20, IBigBawlsTokenErrors {
     uint256 _totalSupply;
     string private _name;
     string private _symbol;
@@ -12,7 +12,11 @@ contract MyToken is IERC20, IBigBawlsTokenErrors {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    constructor(string memory name_, string memory symbol_, uint totalSupply_) {
+    constructor(
+        string memory name_,
+        string memory symbol_,
+        uint256 totalSupply_
+    ) {
         _name = name_;
         _symbol = symbol_;
 
@@ -44,7 +48,7 @@ contract MyToken is IERC20, IBigBawlsTokenErrors {
         address _from,
         address _to,
         uint256 _value
-        ) public returns (bool) {
+    ) public returns (bool) {
         bool success = true;
 
         if (_from != msg.sender) {
@@ -65,7 +69,11 @@ contract MyToken is IERC20, IBigBawlsTokenErrors {
         return true;
     }
 
-    function _transfer(address _from, address _to, uint256 _value) internal {
+    function _transfer(
+        address _from,
+        address _to,
+        uint256 _value
+    ) internal {
         if (_from == address(0)) {
             revert InvalidSenderAddress(_from);
         }
@@ -77,7 +85,11 @@ contract MyToken is IERC20, IBigBawlsTokenErrors {
         _update(_from, _to, _value);
     }
 
-    function _update(address _from, address _to, uint256 _value) internal {
+    function _update(
+        address _from,
+        address _to,
+        uint256 _value
+    ) internal {
         if (_balances[_from] < _value) {
             revert InsufficientBalance(_from, _balances[_from], _value);
         }
@@ -131,11 +143,7 @@ contract MyToken is IERC20, IBigBawlsTokenErrors {
         return true;
     }
 
-    function allowance(address _owner, address _spender)
-        public
-        view
-        returns (uint256)
-    {
+    function allowance(address _owner, address _spender) public view returns (uint256) {
         return _allowances[_owner][_spender];
     }
 
@@ -145,7 +153,11 @@ contract MyToken is IERC20, IBigBawlsTokenErrors {
         return true;
     }
 
-    function _approve(address _owner, address _spender, uint256 _value) internal {
+    function _approve(
+        address _owner,
+        address _spender,
+        uint256 _value
+    ) internal {
         if (_spender == address(0)) {
             revert InvalidSpenderAddress(_spender);
         }
